@@ -1,0 +1,80 @@
+Table Unit_Kerja {
+  id_unit_kerja varchar(10) [pk]
+  nama_unit varchar(50)
+  maksimal_cuti int
+}
+
+Table Jabatan {
+  id_jabatan varchar(10) [pk]
+  nama_jabatan varchar(50)
+  gaji_pokok bigint
+}
+
+Table Pegawai {
+  nip varchar(20) [pk]
+  nama_lengkap varchar(100)
+  nik varchar(16)
+  id_unit_kerja varchar(10) [ref: > Unit_Kerja.id_unit_kerja]
+  id_jabatan varchar(10) [ref: > Jabatan.id_jabatan]
+  status_kepegawaian varchar(20)
+  tanggal_masuk date
+  nomor_str_sip varchar(50)
+  tgl_exp_str_sip date
+  nomor_rekening varchar(30)
+}
+
+Table Presensi {
+  id_presensi bigint [pk]
+  nip varchar(20) [ref: > Pegawai.nip]
+  tanggal date
+  jam_masuk time
+  jam_keluar time
+  status varchar(20)
+}
+
+Table Pengajuan_Lembur {
+  id_lembur bigint [pk]
+  nip varchar(20) [ref: > Pegawai.nip]
+  tanggal date
+  total_jam decimal(3,1)
+  uraian_tugas text
+  status_approval varchar(20)
+}
+
+Table Pengajuan_Cuti {
+  id_cuti bigint [pk]
+  nip varchar(20) [ref: > Pegawai.nip]
+  jenis_cuti varchar(30)
+  tgl_mulai date
+  tgl_selesai date
+  jumlah_hari int
+  status_approval varchar(20)
+  nip_approval varchar(20) [ref: > Jabatan.id_jabatan]
+}
+
+Table Pelatihan {
+  id_pelatihan bigint [pk]
+  nip varchar(20) [ref: > Pegawai.nip]
+  nama_pelatihan varchar(100)
+  tgl_pelaksanaan date
+  jumlah_jam int
+}
+
+Table Penilaian_Kinerja {
+  id_evaluasi bigint [pk]
+  nip varchar(20) [ref: > Pegawai.nip]
+  periode varchar(20)
+  skor_capaian int
+  evaluator_nip varchar(20) [ref: > Jabatan.id_jabatan]
+}
+
+Table Penggajian {
+  id_penggajian bigint [pk]
+  nip varchar(20) [ref: > Pegawai.nip]
+  periode varchar(20)
+  gaji_pokok bigint
+  tunjangan bigint
+  nominal_lembur bigint
+  potongan bigint
+  gaji_bersih bigint
+}
